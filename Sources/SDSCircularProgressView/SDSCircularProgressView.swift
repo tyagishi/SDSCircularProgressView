@@ -13,7 +13,7 @@ public struct SDSCircularProgressView: View {
     let labelValueMin: CGFloat
     let labelValueMax: CGFloat
     let labelValueStep: CGFloat
-    let strokeWidth: CGFloat = 40
+    let strokeWidth: CGFloat
     let centerLabelFormatter: ((Double) -> String)?
     let circleLabelFormatter: ((CGFloat) -> String)?
 
@@ -26,6 +26,7 @@ public struct SDSCircularProgressView: View {
         self.labelValueMin = labelValueMin
         self.labelValueMax = labelValueMax
         self.labelValueStep = labelValueStep
+        self.strokeWidth = strokeWidth
         self.centerLabelFormatter = centerLabelFormatter
         self.circleLabelFormatter = circleLabelFormatter
     }
