@@ -78,12 +78,12 @@ struct Labels: View {
         self.labelFormatter = labelFormatter
         
         self.indexStart = 0
-        self.indexEnd = Int((labelValueMax - labelValueMin) / labelValueStep)+1
+        self.indexEnd = Int((labelValueMax - labelValueMin) / labelValueStep)
     }
 
     var body: some View {
         GeometryReader { geom in
-            ForEach(0..<indexEnd) { index in
+            ForEach(0..<(indexEnd+1)) { index in
                 Text(self.formattedValueString(CGFloat(index)*labelValueStep + labelValueMin))
                     .position(self.labelPos(index, geom.size.center(), geom.size.width/2 * 0.5))
             }
@@ -95,10 +95,10 @@ struct Labels: View {
     }
     
     func labelPos(_ index: Int,_ center:CGPoint, _ radius:CGFloat) -> CGPoint {
-        var angle = CGFloat.pi / -2  + CGFloat.pi * 2 * CGFloat(index) / labelValueStep
+        var angle = CGFloat.pi / -2  + CGFloat.pi * 2 * CGFloat(index) / CGFloat(indexEnd)
         if index == 0 {
             angle += CGFloat.pi / 180 * 5
-        } else if index == indexEnd - 1{
+        } else if index == indexEnd {
             angle -= CGFloat.pi / 180 * 17
         }
         let x = cos(angle) * radius + center.x
