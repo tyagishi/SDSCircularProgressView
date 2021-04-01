@@ -48,7 +48,9 @@ public struct SDSCircularProgressView: View {
                 }
                 .strokedPath(StrokeStyle(lineWidth: strokeWidth-2, lineCap: .round, lineJoin: .round)).foregroundColor(.gray)
                 if let circleLabelFormatter = circleLabelFormatter {
-                    Labels(labelValueMin, labelValueMax, labelValueStep, labelFormatter: circleLabelFormatter)
+                    Labels(labelValueMin, labelValueMax, labelValueStep,
+                           labelRadius: geom.size.width / 2 - strokeWidth - 10,
+                           labelFormatter: circleLabelFormatter)
                 }
 
                 // progress
@@ -70,14 +72,17 @@ struct Labels: View {
     let labelValueMin: CGFloat
     let labelValueMax: CGFloat
     let labelValueStep: CGFloat
+    let labelRadius: CGFloat
     let labelFormatter: ((CGFloat) -> String)
 
     let indexStart:Int
     let indexEnd:Int
     
-    init(_ labelValueMin: CGFloat,_ labelValueMax: CGFloat,_ labelValueStep: CGFloat, labelFormatter: @escaping ((CGFloat) -> String)) {
+    init(_ labelValueMin: CGFloat,_ labelValueMax: CGFloat,_ labelValueStep: CGFloat, labelRadius: CGFloat,
+         labelFormatter: @escaping ((CGFloat) -> String)) {
         self.labelValueMin = labelValueMin
         self.labelValueMax = labelValueMax
+        self.labelRadius = labelRadius
         self.labelValueStep = labelValueStep
         self.labelFormatter = labelFormatter
         
@@ -89,7 +94,8 @@ struct Labels: View {
         GeometryReader { geom in
             ForEach(0..<(indexEnd+1)) { index in
                 Text(self.formattedValueString(CGFloat(index)*labelValueStep + labelValueMin))
-                    .position(self.labelPos(index, geom.size.center(), geom.size.width/2 * 0.5))
+                    .position(self.labelPos(index, geom.size.center(), labelRadius))
+                    .font(.footnote)
             }
         }
     }
