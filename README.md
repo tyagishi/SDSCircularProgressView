@@ -17,7 +17,7 @@ SDSCircularProgressView shows progress along circle
 
 ## At a glance
 
-
+![glance](https://user-images.githubusercontent.com/6419800/113278345-ca758980-931c-11eb-9bf4-48cb3f7c8b6f.mp4)
 
 
 ## Code Example
