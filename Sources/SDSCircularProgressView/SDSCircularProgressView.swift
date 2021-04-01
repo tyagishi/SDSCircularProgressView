@@ -8,6 +8,7 @@
 import SwiftUI
 import SDSCGExtension
 
+// this circular progress start from 300 degree till 0 degree (on clock face start from 10 to 12 with counter-clockwise direction)
 public struct SDSCircularProgressView: View {
     let progress: Double
     let labelValueMin: CGFloat
@@ -32,7 +33,7 @@ public struct SDSCircularProgressView: View {
     }
     
     var start: Angle {
-        return Angle(degrees: 270 - 360 * progress)
+        return Angle(degrees: 210 - 300 * progress)
     }
     var end: Angle {
         Angle(degrees: -90.0)
@@ -41,8 +42,11 @@ public struct SDSCircularProgressView: View {
         GeometryReader { geom in
             ZStack {
                 // base circle + label
-                Circle()
-                    .strokeBorder(Color.gray, lineWidth: strokeWidth - 3)
+                Path { path in
+                    path.addArc(center: geom.size.center(), radius: geom.size.width / 2 - strokeWidth/2 - 2,
+                                startAngle: Angle(degrees: 210), endAngle: Angle(degrees: -90), clockwise: true)
+                }
+                .strokedPath(StrokeStyle(lineWidth: strokeWidth-2, lineCap: .round, lineJoin: .round)).foregroundColor(.gray)
                 if let circleLabelFormatter = circleLabelFormatter {
                     Labels(labelValueMin, labelValueMax, labelValueStep, labelFormatter: circleLabelFormatter)
                 }
@@ -95,12 +99,7 @@ struct Labels: View {
     }
     
     func labelPos(_ index: Int,_ center:CGPoint, _ radius:CGFloat) -> CGPoint {
-        var angle = CGFloat.pi / -2  + CGFloat.pi * 2 * CGFloat(index) / CGFloat(indexEnd)
-        if index == 0 {
-            angle += CGFloat.pi / 180 * 5
-        } else if index == indexEnd {
-            angle -= CGFloat.pi / 180 * 17
-        }
+        let angle = CGFloat.pi / -2  + CGFloat.pi * 2 * (300.0 / 360.0) * CGFloat(index) / CGFloat(indexEnd)
         let x = cos(angle) * radius + center.x
         let y = sin(angle) * radius + center.y
         return CGPoint(x: x, y: y)
