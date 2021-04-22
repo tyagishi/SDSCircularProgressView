@@ -5,8 +5,6 @@
 ![package manager](https://img.shields.io/badge/SPM-Supported-orange)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
-# SDSSharingServicePicker
-
 <!--
 comment
 -->
